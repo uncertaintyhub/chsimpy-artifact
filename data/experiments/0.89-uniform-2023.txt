@@ -1,0 +1,48 @@
+chsimpy (experiment.py) 1.0.0+1.g97cb5e6.dirty ('--help' for command parameters)
+{'B': 12.86
+ 'L': 2
+ 'M': 2e-11
+ 'N': 512
+ 'N_A': 6.02214076e+23
+ 'R': 0.0083144626181532
+ 'Uinit_file': None
+ 'XXX': 0.89
+ '_Parameters__kappa_base': 30
+ 'adaptive_time': False
+ 'compress_csv': True
+ 'delt': 1e-11
+ 'delt_max': 9e-11
+ 'export_csv': 'E,E2,SA'
+ 'file_id': '0.89-uniform-2023'
+ 'full_sim': False
+ 'generator': None
+ 'jitter': None
+ 'kappa': 0.2851876392072164
+ 'no_diagrams': False
+ 'no_gui': True
+ 'ntmax': 1000000
+ 'png': True
+ 'png_anim': False
+ 'seed': 2023
+ 'temp': 923.15
+ 'threshold': 0.89
+ 'time_max': None
+ 'update_every': None
+ 'yaml': True}
+        count         mean         std  ...          75%          max        cv
+A0      100.0  -151.261276    0.431135  ...  -150.873722  -150.554871 -0.002850
+A1      100.0   -85.567777    0.243879  ...   -85.372591   -85.192494 -0.002850
+tau0    100.0   842.940000  104.422493  ...   921.000000  1071.000000  0.123879
+t0      100.0  1476.115869  183.076821  ...  1612.973133  1875.957883  0.124026
+tsep    100.0   840.940000  104.422493  ...   919.000000  1069.000000  0.124174
+fac_A0  100.0     0.999998    0.002850  ...     1.002360     1.004895  0.002850
+fac_A1  100.0     0.999476    0.002849  ...     1.001685     1.004964  0.002850
+
+[7 rows x 9 columns]
+Output files:
+  0.89-uniform-2023-metadata.csv
+  0.89-uniform-2023-results-agg.csv
+  0.89-uniform-2023-results.csv
+  {0.89-uniform-2023-run***.solution.yaml}
+  {0.89-uniform-2023-run***.solution.*.(csv|bz2)}
+  {0.89-uniform-2023-run***.png}

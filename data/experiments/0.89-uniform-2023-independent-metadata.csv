@@ -1,0 +1,21 @@
+system, Linux
+nodename, mw-81q9
+kernel-release, 6.1.25-1-MANJARO
+kernel-version, #1 SMP PREEMPT_DYNAMIC Thu Apr 20 13:48:36 UTC 2023
+machine, x86_64
+cores_phys, 4
+cores_total, 8
+cpufreq_min, 400.00
+cpufreq_max, 3900.00
+cpufreq_current, 3224.46
+localtime, 2023-04-28 13:07:41 CEST
+argv,'experiment.py --png --yaml -N 512 -s 2023 -R 100 --A-source=uniform -S -P 6 --threshold=0.89 --cinit=0.89 --export-csv=E,E2,SA -C --file-id=0.89-uniform-2023-independent --independent'
+chsimpy-version, 1.0.0+1.g97cb5e6.dirty
+A_seed, 85972
+A_source, uniform
+independent, True
+jitter_Arelhigh, 1.005
+jitter_Arellow, 0.995
+processes, 6
+runs, 100
+skip_test, True
