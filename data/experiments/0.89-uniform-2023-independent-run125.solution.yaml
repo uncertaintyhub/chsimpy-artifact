@@ -1,12 +1,12 @@
 --- !Solution
-A0: -151.26151
-A1: -85.46939691401309
+A0: -151.73259065230687
+A1: -85.612615
 Am: 0.0010159633114033082
 Amr: 984.2875119365691
 BRT: 98.7068806940929
 D: -1.3424827255936077e-07
 RT: 7.675496165948127
-computed_steps: 870
+computed_steps: 887
 delx: 0.003913894324853229
 delx2: 1.531856878611831e-05
 eps2: 0.08133198955658544
@@ -42,10 +42,10 @@ params: !Parameters
   threshold: 0.89
   time_max: null
   update_every: null
-  version: 1.0.0+1.g97cb5e6.dirty
+  version: 1.1.0
   yaml: true
 restime: 0
 stop_reason: energy
-t0: 1523.5583183333172
-tau0: 870
+t0: 1553.36325666665
+tau0: 887
 time_fac: 1.7532316666666667

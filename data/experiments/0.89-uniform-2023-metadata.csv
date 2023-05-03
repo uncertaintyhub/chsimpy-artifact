@@ -7,15 +7,15 @@ cores_phys, 4
 cores_total, 8
 cpufreq_min, 400.00
 cpufreq_max, 3900.00
-cpufreq_current, 2824.80
-localtime, 2023-04-28 12:57:41 CEST
-argv,'experiment.py --png --yaml -N 512 -s 2023 -R 100 --A-source=uniform -S -P 6 --threshold=0.89 --cinit=0.89 --export-csv=E,E2,SA -C --file-id=0.89-uniform-2023'
-chsimpy-version, 1.0.0+1.g97cb5e6.dirty
+cpufreq_current, 2904.37
+localtime, 2023-05-02 10:12:49 CEST
+argv, 'experiment.py --png --yaml -N 512 -s 2023 -R 1000 --A-source=uniform -S -P 6 --threshold=0.89 --cinit=0.89 --export-csv=E,E2,SA -C --file-id=0.89-uniform-2023'
+chsimpy-version, 1.1.0
 A_seed, 85972
 A_source, uniform
 independent, False
 jitter_Arelhigh, 1.005
 jitter_Arellow, 0.995
 processes, 6
-runs, 100
+runs, 1000
 skip_test, True
