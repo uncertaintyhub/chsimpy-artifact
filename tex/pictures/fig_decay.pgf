@@ -232,7 +232,7 @@
 \pgfusepath{clip}%
 \pgfsetroundcap%
 \pgfsetroundjoin%
-\pgfsetlinewidth{0.702625pt}%
+\pgfsetlinewidth{0.501875pt}%
 \definecolor{currentstroke}{rgb}{0.717647,0.137255,0.000000}%
 \pgfsetstrokecolor{currentstroke}%
 \pgfsetdash{}{0pt}%
@@ -485,7 +485,7 @@
 \pgfusepath{clip}%
 \pgfsetroundcap%
 \pgfsetroundjoin%
-\pgfsetlinewidth{0.702625pt}%
+\pgfsetlinewidth{0.501875pt}%
 \definecolor{currentstroke}{rgb}{0.000000,0.345098,0.101961}%
 \pgfsetstrokecolor{currentstroke}%
 \pgfsetdash{}{0pt}%
@@ -504,7 +504,7 @@
 \pgfusepath{clip}%
 \pgfsetroundcap%
 \pgfsetroundjoin%
-\pgfsetlinewidth{0.702625pt}%
+\pgfsetlinewidth{0.501875pt}%
 \definecolor{currentstroke}{rgb}{0.000000,0.345098,0.101961}%
 \pgfsetstrokecolor{currentstroke}%
 \pgfsetdash{}{0pt}%
@@ -523,7 +523,7 @@
 \pgfusepath{clip}%
 \pgfsetroundcap%
 \pgfsetroundjoin%
-\pgfsetlinewidth{0.702625pt}%
+\pgfsetlinewidth{0.501875pt}%
 \definecolor{currentstroke}{rgb}{0.000000,0.345098,0.101961}%
 \pgfsetstrokecolor{currentstroke}%
 \pgfsetdash{}{0pt}%
@@ -542,7 +542,7 @@
 \pgfusepath{clip}%
 \pgfsetroundcap%
 \pgfsetroundjoin%
-\pgfsetlinewidth{0.702625pt}%
+\pgfsetlinewidth{0.501875pt}%
 \definecolor{currentstroke}{rgb}{0.000000,0.345098,0.101961}%
 \pgfsetstrokecolor{currentstroke}%
 \pgfsetdash{}{0pt}%
@@ -2899,7 +2899,7 @@
 \pgfusepath{clip}%
 \pgfsetroundcap%
 \pgfsetroundjoin%
-\pgfsetlinewidth{0.702625pt}%
+\pgfsetlinewidth{0.501875pt}%
 \definecolor{currentstroke}{rgb}{0.062745,0.019608,0.686275}%
 \pgfsetstrokecolor{currentstroke}%
 \pgfsetdash{}{0pt}%
