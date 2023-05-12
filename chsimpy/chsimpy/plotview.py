@@ -1,4 +1,3 @@
-import IPython.display
 import numpy as np
 
 from matplotlib import pyplot as plt
@@ -8,7 +7,8 @@ import seaborn as sns
 
 from chsimpy import utils
 
-if utils.is_notebook() is False:
+
+if utils.is_notebook() is False and utils.module_exists('PyQt5'):
     matplotlib.use("Qt5Agg")  # much faster GUI response time
 
 

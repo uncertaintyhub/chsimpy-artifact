@@ -2,20 +2,12 @@
 import numpy as np
 import pandas as pd
 from scipy.stats import qmc
-import pathlib
-import sys
 import multiprocessing as mp
 from tqdm import tqdm
 
-try:
-    import chsimpy
-except ImportError:
-    _parentdir = pathlib.Path("./").resolve().parent
-    sys.path.insert(0, str(_parentdir))
-    import chsimpy
-    # sys.path.remove(str(_parentdir))
-
-from chsimpy import Simulator, CLIParser, utils
+from . import utils
+from .cli_parser import CLIParser
+from .simulator import Simulator
 
 import matplotlib
 # https://matplotlib.org/stable/users/faq/howto_faq.html#work-with-threads
@@ -90,6 +82,7 @@ class ExperimentCLIParser:
 
 
 def run_experiment(run_id):
+    global init_params, rand_values, U_init, A_list
     # prepare params for actual run
     params = init_params.deepcopy()
     params.seed = init_params.seed
@@ -99,8 +92,8 @@ def run_experiment(run_id):
         fac_A0 = rand_values[run_id, 0]
         fac_A1 = rand_values[run_id, 1]
         # U[rel_low, rel_high) * A(temperature)
-        params.func_A0 = lambda temp: chsimpy.utils.A0(temp) * fac_A0
-        params.func_A1 = lambda temp: chsimpy.utils.A1(temp) * fac_A1
+        params.func_A0 = lambda temp: utils.A0(temp) * fac_A0
+        params.func_A1 = lambda temp: utils.A1(temp) * fac_A1
     else:
         params.func_A0 = lambda temp: A_list[run_id][0]
         params.func_A1 = lambda temp: A_list[run_id][1]
@@ -114,9 +107,9 @@ def run_experiment(run_id):
 
     simulator.export()
     simulator.render()
-    cgap = chsimpy.utils.get_miscibility_gap(params.R, params.temp, params.B,
+    cgap = utils.get_miscibility_gap(params.R, params.temp, params.B,
                                              solution.A0, solution.A1)
-    sa, sb = chsimpy.utils.get_roots_of_EPP(params.R, params.temp, solution.A0, solution.A1)
+    sa, sb = utils.get_roots_of_EPP(params.R, params.temp, solution.A0, solution.A1)
     itargmax = np.argmax(solution.E2)
     return (solution.A0,
             solution.A1,
@@ -133,7 +126,8 @@ def run_experiment(run_id):
             )
 
 
-if __name__ == '__main__':
+def main():
+    global init_params, rand_values, U_init, A_list
     mp.freeze_support()  # for Windows support
     exp_cliparser = ExperimentCLIParser()
     exp_cliparser.cliparser.print_info()
@@ -141,14 +135,13 @@ if __name__ == '__main__':
     # print parameters
     print(str(init_params).replace(", '", "\n '"))
 
-    # get sysinfo and current time and dump it to experiment-metadata csv file
     if init_params.file_id is None or init_params.file_id == 'auto':
-        init_params.file_id = chsimpy.utils.get_or_create_file_id(init_params.file_id)
-    sysinfo_list = chsimpy.utils.get_system_info()
+        init_params.file_id = utils.get_or_create_file_id(init_params.file_id)
+    # get sysinfo and current time
+    sysinfo_list = utils.get_system_info()
 
     if init_params.Uinit_file is None:
-        # first create U_init (global), so we have always the same U_init in all runs
-        U_init = None  #init_params.XXX + (init_params.XXX * 0.01 * (rng.random((init_params.N, init_params.N)) - 0.5))
+        U_init = None
     else:
         U_init = utils.csv_import_matrix(init_params.Uinit_file)
 
@@ -178,10 +171,10 @@ if __name__ == '__main__':
     elif 'grid' == exp_params.A_source:
         # create grid points for A0 and A1
         nx = int(np.floor(np.sqrt(exp_params.runs)))
-        exp_params.runs = nx*nx
+        exp_params.runs = nx * nx
         xvec = np.linspace(exp_params.jitter_Arellow, exp_params.jitter_Arelhigh, nx)  # factors
         if exp_params.independent:
-            rand_values = np.ones((2*nx, 2))
+            rand_values = np.ones((2 * nx, 2))
             rand_values[:nx, 0] = xvec
             rand_values[nx:, 1] = xvec
         else:
@@ -197,44 +190,49 @@ if __name__ == '__main__':
         A_list = utils.csv_import_matrix(exp_params.A_source)
 
     # store metadata
-    exp_params_list = chsimpy.utils.vars_to_list(exp_params)
-    chsimpy.utils.csv_export_list(f"experiment-{init_params.file_id}-metadata.csv",
+    exp_params_list = utils.vars_to_list(exp_params)
+    utils.csv_export_list(f"{init_params.file_id}-metadata.csv",
                                   "\n".join(sysinfo_list + exp_params_list))
     # prepare for multiprocessing
     nprocs = 1
     if exp_params.processes == -1:
-        nprocs = chsimpy.utils.get_number_physical_cores()
+        nprocs = utils.get_number_physical_cores()
         nprocs = min(exp_params.runs, nprocs)  # e.g. one run only needs one core
     elif exp_params.processes > 1:
         nprocs = exp_params.processes
 
     nr_items = rand_values.shape[0] if A_list is None else A_list.shape[0]
     if exp_params.independent and ('sobol' == exp_params.A_source or 'uniform' == exp_params.A_source):
-        nr_items = min(2*exp_params.runs, nr_items)
+        nr_items = min(2 * exp_params.runs, nr_items)
     else:
         nr_items = min(exp_params.runs, nr_items)
     items = range(nr_items)
     results = []
     with mp.Pool(processes=nprocs) as pool, tqdm(pool.imap_unordered(run_experiment, items), total=len(items)) as pbar:
-        pbar.set_postfix({'Mem': chsimpy.utils.get_mem_usage_all()})
+        pbar.set_postfix({'Mem': utils.get_mem_usage_all()})
         for x in pbar:
-            pbar.set_postfix({'Mem': chsimpy.utils.get_mem_usage_all()})
+            pbar.set_postfix({'Mem': utils.get_mem_usage_all()})
             results.append(x)
             pbar.refresh()
 
     cols = ['A0', 'A1', 'ca', 'cb', 'sa', 'sb', 'tau0', 't0', 'tsep', 'id', 'fac_A0', 'fac_A1']
     df_results = pd.DataFrame(results, columns=cols)
     df_results[['tau0', 'id']] = df_results[['tau0', 'id']].astype(int)
-    df_results.to_csv(f"experiment-{init_params.file_id}-raw.csv")
+    df_results.to_csv(f"{init_params.file_id}-results.csv")
     df_agg = df_results.loc[:, df_results.columns != 'id'].describe()
     df_agg.loc['cv'] = df_agg.loc['std'] / df_agg.loc['mean']
     print(df_agg.T)
-    df_agg.T.to_csv(f"experiment-{init_params.file_id}-agg.csv")
+    df_agg.T.to_csv(f"{init_params.file_id}-results-agg.csv")
     print('Output files:')
-    print(f"  experiment-{init_params.file_id}-metadata.csv")
-    print(f"  experiment-{init_params.file_id}-agg.csv")
-    print(f"  experiment-{init_params.file_id}-raw.csv")
-    print(f"  {{solution-{init_params.file_id}-run***.yaml}}")
-    print(f"  {{solution-{init_params.file_id}-run***.*.csv[.bz2]}}")
+    print(f"  {init_params.file_id}-metadata.csv")
+    print(f"  {init_params.file_id}-results-agg.csv")
+    print(f"  {init_params.file_id}-results.csv")
+    print(f"  {{{init_params.file_id}-run***.solution.yaml}}")
+    print(f"  {{{init_params.file_id}-run***.solution.*.(csv|bz2)}}")
     if init_params.png:
-        print(f"  {{solution-{init_params.file_id}-run***.png}}")
+        print(f"  {{{init_params.file_id}-run***.png}}")
+
+
+if __name__ == '__main__':
+    main()
+

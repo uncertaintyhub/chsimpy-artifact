@@ -1,16 +1,18 @@
 import setuptools
-import versioneer
+
 
 with open('README.md', 'r') as fh:
     long_description = fh.read()
 with open('requirements.txt', 'r') as fh:
-    requirements = fh.read().splitlines()
+    requirements = fh.read()
+    requirements = requirements.replace("git+https://github.com/pvigier/perlin-numpy",
+                                        "perlin-numpy @ git+https://github.com/pvigier/perlin-numpy")
+    requirements = requirements.splitlines()
 
 setuptools.setup(
     name='chsimpy',
-    version=versioneer.get_version(),
-    cmdclass=versioneer.get_cmdclass(),
     author='uncertaintyhub',
+    version='1.3.1',
     author_email='',
     description='Cahn–Hilliard Simulation of Phase Separation in Na2O-SiO2 Glasses',
     url='https://github.com/uncertaintyhub/chsimpy',
@@ -26,9 +28,22 @@ setuptools.setup(
     ],
     python_requires='>=3.5',
     install_requires=requirements,
+    extras_require={
+        'qt5': ['PyQt5'],
+        'interactive': [
+            'ipython~=8.0.0',
+            'bokeh~=2.4.3',
+            'jupyterlab~=3.6.0',
+            'jupyter-server~=2.1.0',
+            'jupyterlab-server~=2.19.0',
+            'ipykernel~=6.21.0',
+            'ipympl~=0.9.0'
+        ]
+    },
     entry_points={
         'console_scripts': [
-            'chsimpy = chsimpy.chsimpy',
+            'chsimpy = chsimpy.__main__:main',
+            'chsimpy-experiment = chsimpy.experiment:main',
         ],
     },
     include_package_data=False,

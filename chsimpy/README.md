@@ -1,13 +1,26 @@
 # chsimpy
 
 chsimpy is a python3 simulation code to solve the Cahn–Hilliard equation for phase separation of Na2O-SiO2 glasses under uncertainty.
-It provides an optional non-interactive graphical interface, which also can update its results during the simulation to see its progress.
-Parameters can be changed via command-line interface (CLI) or jupyter notebook.
-Most of the data can also be exported for post-processing and reproducibility.
+It provides an optional non-interactive graphical interface (GUI) with an optional live view of the simulation progress.
+Parameters can be changed via command-line interface (CLI), input data or within a jupyter notebook.
+Data can also be exported for post-processing and reproducibility.
+Results and instructions for reproduction are provided in our [chsimpy-artifact github repository](https://github.com/uncertaintyhub/chsimpy-artifact).
 
 ## Installation
 
-Currently there is no automated installation routine, so just clone this github repository and install the required python packages.
+To install just the chsimpy module and its CLI application:
+```bash
+pip install git+https://github.com/uncertaintyhub/chsimpy.git
+```
+
+Additional requirements also can be selected with:
+```bash
+# 'interactive' installs jupyter packages
+# 'qt5' installs PyQt5 for faster GUI response times
+pip install "chsimpy[interactive, qt5] @ git+https://github.com/uncertaintyhub/chsimpy.git"
+```
+
+For development clone this repository and install the requirements.
 If there are version issues with already existing python packages, use [python virtual environments](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/) or the chsimpy docker container build method (see section [Docker / Jupyter](#docker--jupyter)).
 
 ```bash
@@ -31,10 +44,12 @@ python setup.py install
 Go to the chsimpy examples folder and run the code via python:
 
 ```bash
+# if installed just run
+chsimpy --help
+# and for developers:
 # git clone https://github.com/uncertaintyhub/chsimpy.git
 # cd chsimpy
-cd examples
-python . -h # help
+python -m chsimpy --help
 ```
 
 The help provides information on the command-line interface (CLI) arguments:
@@ -45,8 +60,13 @@ usage: chsimpy [-h] [--version] [-N N] [-n NTMAX] [-t TIME_MAX] [-z] [-a] [--cin
                [--export-csv EXPORT_CSV] [-C] [--update-every UPDATE_EVERY] [--no-diagrams]
 
 Simulation of Phase Separation in Na2O-SiO2 Glasses under Uncertainty (solving the Cahn–Hilliard (CH) equation)
+usage: chsimpy [-h] [--version] [-N N] [-n NTMAX] [-t TIME_MAX] [-z] [-a] [--cinit CINIT] [--threshold THRESHOLD] [--temperature TEMPERATURE] [--A0 A0] [--A1 A1] [-K KAPPA_BASE] [--dt DT]
+               [-g {uniform,perlin,sobol,lcg}] [-s SEED] [-j JITTER] [-p PARAMETER_FILE] [--Uinit-file UINIT_FILE] [-f FILE_ID] [--no-gui] [--png] [--png-anim] [--yaml]
+               [--export-csv EXPORT_CSV] [-C] [--update-every UPDATE_EVERY] [--no-diagrams]
 
-options:
+Simulation of Phase Separation in Na2O-SiO2 Glasses under Uncertainty (solving the Cahn–Hilliard (CH) equation)
+
+optional arguments:
   -h, --help            show this help message and exit
   --version             show program's version number and exit
 
@@ -82,7 +102,7 @@ Input:
 
 Output:
   -f FILE_ID, --file-id FILE_ID
-                        Filenames have an id like "solution-<ID>.yaml" ("auto" creates a timestamp). Existing files will be OVERWRITTEN! (default: auto)
+                        Filenames have an id like "<ID>...yaml" ("auto" creates a timestamp). Existing files will be OVERWRITTEN! (default: auto)
   --no-gui              Do not show plot window (if --png or --png-anim. (default: False)
   --png                 Export solution plot to PNG image file (see --file-id). (default: False)
   --png-anim            Export live plotting to series of PNGs (--update-every required) (see --file-id). (default: False)
@@ -95,12 +115,22 @@ Output:
   --no-diagrams         No diagrams or axes, it only renders the image map of U. (default: False)
 ```
 
+## Input Parameters as File
+
+The example file `examples/example-parameters.yaml` demonstrates the use of a YAML configuration for simulation parameters.
+A0 and A1 are lambda functions and cannot be defined here, so you use `chsimpy --A0=... --A1=...` instead.
+
 ## Notebooks
 
 Install jupyter on your system. Perhaps further packages are required:
 
 ```bash
 pip install PyQt5 ipympl
+```
+
+When installing chsimpy, additional requirements also can be selected via:
+```
+pip install "chsimpy[interactive, qt5] @ git+https://github.com/uncertaintyhub/chsimpy.git"
 ```
 
 Run in chsimpy folder:
@@ -113,14 +143,16 @@ jupyter notebook
 
 ## Experiments
 
-An example for running parameter experiments can be found in `experiments/`.
+A python script for running parameter experiments can be found in `chsimpy/experiments.py`. It also can be run with `chsimpy-experiment` after installation of chsimpy.
 It uses multi-processing to execute multiple simulation at once with varying parameters (A0, A1 in our case).
 The random numbers are controlled by the seed which is defined by the iteration number, so the outcome does not depend on the parallelization.
 The CLI is extended by additional arguments.
 
 ```bash
-cd experiments/
-python experiment.py -h # help
+# if chsimpy is installed
+chsimpy-experiment --help
+# OR: within repository
+python -m chsimpy.experiment -h
 ```
 The help text includes the main help from above and additionally:
 ```bash
@@ -131,14 +163,14 @@ Experiment:
   -S, --skip-test       Skip initial tests and validation [TODO]. (default: False)
   -P PROCESSES, --processes PROCESSES
                         Runs are distributed to P processes to run in parallel (-1 = auto) (default: -1)
-  --independent         Independent A0, A1 runs (varying A0 and A1 runs separately. (default: False)
-  --A-file A_FILE       File with A0,A1 values (pairs row by row) (default: None)
-  --A-grid              Using evenly distributed grid points in A0 x A1 domain (sqrt(runs) x sqrt(runs)) (default: False)
+  --independent         Independent A0, A1 runs, i.e. A0 and A1 do not vary at the same time (default: False)
+  --A-source A_SOURCE   = ['uniform', 'sobol', 'grid', '<filename>'] - Source for A0 x A1 numbers for the Monte-Carlo runs (uniform or sobol random numbers, evenly distributed grid points
+                        [sqrt(runs) x sqrt(runs)], location of text file with row-wise A0, A1 pairs) (default: uniform)
 ```
 
 ## Tests
 
-Only very basic tests can be found in `tests/`. It includes a small simulation, where the result is compared against the result of a pre-run non-public Matlab simulation. The validation dataset can be found in `validation/`. There is a script `tests/run-tests.sh` to run the tests and things like benchmark or GUI visualization (user has to close to continue tests script).
+Only very basic tests can be found in `tests/`. It includes a small simulation, where the result is compared against the result of a pre-run non-public Matlab simulation. The validation dataset can be found in `data/`. There is a script `tests/run-tests.sh` to run the tests and things like benchmark or GUI visualization (user has to close to continue tests script).
 
 ## Benchmark
 
@@ -184,7 +216,16 @@ The simulation results can be displayed as a single image of the concentration o
 ![Simulation result image](picture.png)
 ![Simulation result diagrams](picture-diags.png)
 
+## Authors and Acknowledgements
 
+chsimpy is a team project with the current maintainers and developers [B. Sprungk](https://github.com/bsprungk) and [M. Werner](https://github.com/user2084).
+Special thanks to H. Hoellwarth, who wrote the core algorithm in Matlab and who also supported us during the migration to python.
+We would also like to thank S. Sander and S. Fuhrmann for her expert assistance in determining the material parameters.
+
+The algorithm is based on the paper: [Majid Ghiass, Mohammad Reza Moghbeli & Hossein Esfandian (2016)
+Numerical Simulation of Phase Separation Kinetic of Polymer Solutions Using the Spectral
+Discrete Cosine Transform Method, Journal of Macromolecular Science, Part B, 55:4, 411-425,
+DOI: 10.1080/00222348.2016.1153403](http://dx.doi.org/10.1080/00222348.2016.1153403)
 
 ## Project status
 
