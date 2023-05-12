@@ -8,12 +8,17 @@ import platform
 import sympy as sym
 import pandas as pd
 import sys
-from IPython import get_ipython
 import os
 import psutil
 import matplotlib.pyplot as plt
+import importlib.util
 
-from . import _version
+from .version import __version__
+
+
+def module_exists(name):
+    mod_spec = importlib.util.find_spec(name)
+    return mod_spec is not None
 
 
 # Experimentelle Bestimmung der Koeffizenten einer
@@ -130,8 +135,8 @@ def get_system_info():
         f"cpufreq_max, {cpufreq.max:.2f}",
         f"cpufreq_current, {cpufreq.current:.2f}",
         f"localtime, {get_current_localtime()}",
-        f"argv, {' '.join(sys.argv)}'",
-        f"chsimpy-version, {_version.get_versions()['version']}"
+        f"argv, '{' '.join(sys.argv)}'",
+        f"chsimpy-version, {__version__}"
     ]
     return sysinfo
 
@@ -169,6 +174,11 @@ def get_roots_of_EPP(R, T, A0, A1):
 
 # https://stackoverflow.com/a/39662359
 def is_notebook() -> bool:
+    if module_exists('IPython'):
+        from IPython import get_ipython
+    else:
+        return False
+
     try:
         shell = get_ipython().__class__.__name__
         if shell == 'ZMQInteractiveShell':
@@ -231,3 +241,4 @@ def pause_without_show(interval):
         canvas.start_event_loop(interval)
     else:
         time.sleep(interval)
+
