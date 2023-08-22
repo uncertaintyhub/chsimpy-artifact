@@ -1,0 +1,47 @@
+chsimpy (experiment.py) 1.4.3 ('--help' for command parameters)
+{'B': 12.86
+ 'L': 2
+ 'M_tilde': 1.71e-08
+ 'N': 512
+ 'N_A': 6.02214076e+23
+ 'R': 0.0083144626181532
+ 'Uinit_file': None
+ 'XXX': 0.89
+ 'adaptive_time': False
+ 'compress_csv': True
+ 'delt': 3e-08
+ 'delt_max': 9e-08
+ 'export_csv': 'E,E2,SA'
+ 'file_id': '0.89-uniform-2023-independent'
+ 'full_sim': False
+ 'generator': 'uniform'
+ 'jitter': None
+ 'kappa_tilde': 0.0003580665255963738
+ 'no_diagrams': False
+ 'no_gui': True
+ 'ntmax': 1000000
+ 'png': True
+ 'png_anim': False
+ 'seed': 2023
+ 'temp': 923.15
+ 'threshold': 0.89
+ 'time_max': None
+ 'update_every': None
+ 'yaml': True}
+         count         mean         std  ...          75%          max        cv
+A0      2000.0  -151.274240    0.306108  ...  -151.261510  -150.506585 -0.002024
+A1      2000.0   -85.607378    0.175213  ...   -85.596290   -85.185394 -0.002047
+tau0    2000.0  1190.902000  106.364304  ...  1278.000000  1419.000000  0.089314
+t0      2000.0  2087.547368  186.604041  ...  2240.350877  2487.719298  0.089389
+tsep    2000.0  1188.902000  106.364304  ...  1276.000000  1417.000000  0.089464
+fac_A0  2000.0     1.000084    0.002024  ...     1.000149     1.004997  0.002024
+fac_A1  2000.0     0.999939    0.002047  ...     1.000000     1.004996  0.002047
+
+[7 rows x 9 columns]
+Output files:
+  0.89-uniform-2023-independent-metadata.csv
+  0.89-uniform-2023-independent-results-agg.csv
+  0.89-uniform-2023-independent-results.csv
+  {0.89-uniform-2023-independent-run***.solution.yaml}
+  {0.89-uniform-2023-independent-run***.solution.*.(csv|bz2)}
+  {0.89-uniform-2023-independent-run***.png}

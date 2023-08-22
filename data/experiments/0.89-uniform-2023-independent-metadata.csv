@@ -1,0 +1,20 @@
+system, Linux
+nodename, mw-81q9
+kernel-release, 6.1.38-1-MANJARO
+kernel-version, #1 SMP PREEMPT_DYNAMIC Wed Jul  5 23:49:30 UTC 2023
+machine, x86_64
+cores_phys, 4
+cores_total, 8
+cpufreq_min, 400.00
+cpufreq_max, 3900.00
+cpufreq_current, 3028.88
+localtime, 2023-08-21 15:05:01 CEST
+argv, '/tmp/mawe/chsimpy-artifact/chsimpy/chsimpy/experiment.py --png --yaml -N 512 -s 2023 -R 1000 --A-source=uniform --A-seed=85972 -P 20 --threshold=0.89 --cinit=0.89 --kappa-tilde=0.0003580665255963738 --export-csv=E,E2,SA -C --file-id=0.89-uniform-2023-independent --independent'
+chsimpy-version, 1.4.3
+A_seed, 85972
+A_source, uniform
+independent, True
+jitter_Arelhigh, 1.005
+jitter_Arellow, 0.995
+processes, 8
+runs, 1000

@@ -1,0 +1,52 @@
+--- !Solution
+A0: -151.26151
+A1: -85.612615
+Am: 7245115164729.647
+Amr: 1.3802403098685805e-13
+BRT: 98.7068806940929
+M: 2.3602109298752728e-21
+RT: 7.675496165948127
+computed_steps: 35
+delx: 0.003913894324853229
+delx2: 1.531856878611831e-05
+kappa: 4.125694142465291e-17
+kappa_base: 0.03144365587960252
+kappa_tilde: 0.0002989112919661156
+params: !Parameters
+  B: 12.86
+  L: 2
+  M_tilde: 1.71e-08
+  N: 512
+  N_A: 6.02214076e+23
+  R: 0.0083144626181532
+  Uinit_file: null
+  XXX: 0.875
+  adaptive_time: false
+  compress_csv: false
+  delt: 3e-08
+  delt_max: 9e-08
+  export_csv: E2,E,U,SA
+  file_id: paper-pic-1min-0.875
+  full_sim: true
+  func_A0: self.func_A0=lambda temp:utils.A0(temp)
+  func_A1: self.func_A1=lambda temp:utils.A1(temp)
+  generator: uniform
+  jitter: null
+  kappa_tilde: null
+  no_diagrams: true
+  no_gui: true
+  ntmax: 1000000
+  png: true
+  png_anim: false
+  seed: 2023
+  temp: 923.15
+  threshold: 0.875
+  time_max: 1.0
+  update_every: null
+  version: 1.4.2
+  yaml: true
+restime: 0
+stop_reason: time-limit
+t0: 0.0
+tau0: 0.0
+time_fac: 1.7543859649122804
