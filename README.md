@@ -1,7 +1,7 @@
 # chsimpy-artifact
 
 Reproducable artifact data for the Cahn-Hilliard simulation program [chsimpy](https://github.com/uncertaintyhub/chsimpy) (python3).
-Data and figures are used for the paper: `Simulation of phase separation in Na2O-SiO2 glasses under uncertainty`, Journal of Non-Crystalline Solids, 2023.
+Data and figures are used in the paper: [Simulation of phase separation in Na2O-SiO2 glasses under uncertainty](https://www.sciencedirect.com/science/article/pii/S0022309323004003), Henning Höllwarth, Stephan A.H. Sander, Matthias Werner, Sindy Fuhrmann, Björn Sprungk; Journal of Non-Crystalline Solids, Volume 621, 2023, ISSN 0022-3093, <https://doi.org/10.1016/j.jnoncrysol.2023.122534>.
 
 ## Structure
 
